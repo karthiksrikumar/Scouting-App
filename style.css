@@ -1,0 +1,297 @@
+/* ------------------------------------------------------
+   style.css
+   Replicates the original Reefscape look with smooth outlines,
+   SF Sports Night header, and larger buttons for mobile.
+------------------------------------------------------- */
+
+/* Optional: SF Sports Night font (ensure SFSportsNight.woff2 is available)
+@font-face {
+  font-family: 'SF Sports Night';
+  src: url('SFSportsNight.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+*/
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html, body {
+  width: 100%;
+  min-height: 100%;
+  background-color: #000;
+  color: #fff;
+  font-family: sans-serif;
+}
+
+/* Main Header */
+.main-header {
+  background-color: #000;
+  text-align: center;
+  padding: 10px;
+  border-bottom: 2px solid #d91f26;
+}
+.main-header h1 {
+  font-family: 'SF Sports Night', sans-serif;
+  font-size: 2rem;
+  color: #d91f26;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* App Container */
+.app {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  padding: 10px;
+}
+
+/* Section (Column) Styles */
+.column {
+  background-color: #111;
+  border: 1px solid #333;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.column-header {
+  background-color: #d91f26;
+  padding: 8px 10px;
+  text-align: left;
+  font-weight: bold;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-bottom: 1px solid #333;
+}
+.column-body {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Field Styles */
+.field {
+  background-color: #000;
+  border: 1px solid #d91f26;
+  border-radius: 5px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.field label {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #fff;
+}
+.field input[type="text"],
+.field input[type="number"],
+.field select,
+.field textarea {
+  background-color: #111;
+  border: 1px solid #333;
+  border-radius: 3px;
+  color: #fff;
+  padding: 6px;
+  font-size: 0.85rem;
+  width: 100%;
+}
+
+/* Toggle Fields (Checkboxes) */
+.toggle-field {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.toggle-field label {
+  font-weight: normal;
+}
+.toggle-field input[type="checkbox"] {
+  transform: scale(1.3);
+  accent-color: #d91f26;
+}
+
+/* Timer Field */
+.timer-field {
+  align-items: flex-start;
+}
+.timer-display {
+  text-align: center;
+  font-size: 1rem;
+  background-color: #111;
+  border: 1px solid #333;
+  border-radius: 3px;
+  color: #fff;
+  padding: 5px;
+  width: 80px;
+  margin-bottom: 5px;
+}
+.timer-buttons {
+  display: flex;
+  gap: 5px;
+}
+.timer-btn {
+  background-color: #111;
+  border: 1px solid #d91f26;
+  color: #d91f26;
+  padding: 8px 12px;
+  border-radius: 3px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.timer-btn:hover {
+  background-color: #d91f26;
+  color: #fff;
+}
+
+/* Counter Fields */
+.counter-field {
+  align-items: flex-start;
+}
+.counter-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.counter-btn {
+  background-color: #111;
+  border: 1px solid #d91f26;
+  color: #d91f26;
+  width: 36px;
+  height: 36px;
+  font-size: 1.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.counter-btn:hover {
+  background-color: #d91f26;
+  color: #fff;
+}
+.counter-container input[type="number"] {
+  width: 60px;
+  text-align: center;
+  border: 1px solid #333;
+  border-radius: 3px;
+  background-color: #222;
+  color: #fff;
+  font-size: 0.85rem;
+}
+
+/* Field Map (Auto Start Position) */
+.field-image {
+  gap: 8px;
+}
+.field-map {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+}
+.field-map img {
+  width: 100%;
+  display: block;
+  border-radius: 5px;
+  border: 1px solid #333;
+}
+.red-dot {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background-color: red;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  display: none;
+  pointer-events: none;
+}
+.flipped img {
+  transform: scaleX(-1);
+}
+
+/* Bottom Buttons */
+.bottom-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  justify-content: center;
+}
+.btn {
+  background-color: #111;
+  border: 1px solid #d91f26;
+  color: #d91f26;
+  padding: 10px 18px;
+  font-size: 1rem;
+  text-transform: uppercase;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.btn:hover {
+  background-color: #d91f26;
+  color: #fff;
+}
+.commit-btn {
+  background-color: #d91f26;
+  color: #fff;
+  border: 1px solid #d91f26;
+}
+.commit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.commit-btn:disabled:hover {
+  background-color: #d91f26;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+}
+.modal-content {
+  background-color: #222;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #333;
+  border-radius: 6px;
+  width: 320px;
+  max-width: 90%;
+  text-align: center;
+  position: relative;
+}
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+.close:hover {
+  color: #d91f26;
+}
+#qrCode {
+  margin: 15px auto;
+}
+#qrData {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .field-map {
+    max-width: 100%;
+  }
+}
