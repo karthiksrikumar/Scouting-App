@@ -1,12 +1,12 @@
 /* ------------------------------------------------------
    script.js
    Integrated functionality:
-   - EVENT_CODE is defined here (change as needed)
+   - EVENT_CODE is defined (set to "2024cthar")
    - Pulls team and match data from TBA using the provided API key
-   - Free–form interactive field: stores (x,y) coordinates, then converts them to a grid cell number (12x6) for output
-   - Auto–fill of team number based on match number, match type, and robot
-   - Reset form auto–increments match number
-   - Builds output data as short–code key=value; string (including Coral L4 fields)
+   - Free-form interactive field: stores (x,y) coordinates then converts them into a grid cell number (12x6) for output
+   - Auto-fills team number based on match number, match type, and robot selection
+   - Reset form automatically increments match number
+   - Builds output data as short-code key=value; string (with Coral L4 fields and updated dislodged algae fields)
 ------------------------------------------------------ */
 
 /* ===== TBA Interface Functions ===== */
@@ -45,7 +45,7 @@ function getSchedule(eventCode) {
   }
 }
 
-/* ===== Timer Functions ===== */
+/* ===== Timer Functions (unchanged) ===== */
 let timerInterval = null;
 let elapsedTime = 0;
 let isRunning = false;
@@ -58,13 +58,13 @@ function formatTime(ms) {
          String(seconds).padStart(2, '0') + '.' + fraction;
 }
 function updateTimerDisplay() {
-  document.getElementById('timeToScoreCoralDisplay').textContent = formatTime(elapsedTime);
+  document.getElementById('timeToScoreCoralDisplay') && (document.getElementById('timeToScoreCoralDisplay').textContent = formatTime(elapsedTime));
 }
 function startStopTimer() {
   if (!isRunning) {
     isRunning = true;
     const startTime = Date.now() - elapsedTime;
-    document.getElementById('startStopTimerBtn').textContent = 'Stop';
+    document.getElementById('startStopTimerBtn') && (document.getElementById('startStopTimerBtn').textContent = 'Stop');
     timerInterval = setInterval(() => {
       elapsedTime = Date.now() - startTime;
       updateTimerDisplay();
@@ -73,12 +73,12 @@ function startStopTimer() {
     isRunning = false;
     clearInterval(timerInterval);
     timerInterval = null;
-    document.getElementById('startStopTimerBtn').textContent = 'Start';
-    document.getElementById('timeToScoreCoral').value = (elapsedTime / 1000).toFixed(2);
+    document.getElementById('startStopTimerBtn') && (document.getElementById('startStopTimerBtn').textContent = 'Start');
+    document.getElementById('timeToScoreCoral') && (document.getElementById('timeToScoreCoral').value = (elapsedTime / 1000).toFixed(2));
   }
 }
 function lapTimer() {
-  document.getElementById('timeToScoreCoral').value = (elapsedTime / 1000).toFixed(2);
+  document.getElementById('timeToScoreCoral') && (document.getElementById('timeToScoreCoral').value = (elapsedTime / 1000).toFixed(2));
   alert('Lap recorded: ' + document.getElementById('timeToScoreCoral').value + 's');
 }
 function resetTimer() {
@@ -86,9 +86,9 @@ function resetTimer() {
   timerInterval = null;
   isRunning = false;
   elapsedTime = 0;
-  document.getElementById('startStopTimerBtn').textContent = 'Start';
+  document.getElementById('startStopTimerBtn') && (document.getElementById('startStopTimerBtn').textContent = 'Start');
   updateTimerDisplay();
-  document.getElementById('timeToScoreCoral').value = '0.00';
+  document.getElementById('timeToScoreCoral') && (document.getElementById('timeToScoreCoral').value = '0.00');
 }
 
 /* ===== Increment/Decrement for Counters ===== */
@@ -114,17 +114,13 @@ function updateDefenseSkillDisplay() {
 }
 
 /* ===== Interactive Field (Free Selection) ===== */
-/* When the user clicks on the field image, store the actual (x,y) coordinate */
 function onFieldClick(event) {
   const map = document.getElementById('fieldMap');
   const rect = map.getBoundingClientRect();
-  // Use event.offsetX/Y to get the click position relative to the image
   const x = event.offsetX;
   const y = event.offsetY;
-  // Store the coordinate as a JSON array (e.g., ["123,45"])
   const coordsArray = [x + "," + y];
   document.getElementById('startingPosition').value = JSON.stringify(coordsArray);
-  // Position the red dot at the clicked coordinates
   const dot = document.getElementById('redDot');
   dot.style.left = (x - 7) + "px";
   dot.style.top = (y - 7) + "px";
@@ -144,11 +140,12 @@ function checkMandatory() {
   document.getElementById('commitButton').disabled = !validateMandatoryFields();
 }
 
-/* ===== Auto-Fill Team Number Based on Match Data ===== */
-/* The match key is built using EVENT_CODE, match type, and match number.
-   For qualifiers, the key format is: EVENT_CODE + "_qm" + matchNumber
-   For playoffs, we'll assume: EVENT_CODE + "_qf" + matchNumber
-   For finals: EVENT_CODE + "_f" + matchNumber  */
+/* ===== Auto-Fill Team Number Based on TBA Data ===== */
+function getRobot() {
+  let r = document.getElementById("robotNumber").value;
+  if (!r) return "";
+  return r.toLowerCase().replace("red ", "r").replace("blue ", "b");
+}
 function getCurrentMatchKey() {
   const matchType = document.getElementById("matchType").value;
   const matchNumber = document.getElementById("matchNumber").value;
@@ -168,11 +165,6 @@ function getMatch(matchKey) {
 }
 function getCurrentMatch() {
   return getMatch(getCurrentMatchKey());
-}
-function getRobot() {
-  let r = document.getElementById("robotNumber").value;
-  if (!r) return "";
-  return r.toLowerCase().replace("red ", "r").replace("blue ", "b");
 }
 function getCurrentTeamNumberFromRobot() {
   const robot = getRobot();
@@ -212,7 +204,7 @@ function getFormDataString() {
     { code: 'cp', id: 'cagePosition' },
     
     { code: 'ma', id: 'movedAuto' },
-    { code: 'tCor', id: 'timeToScoreCoral' },
+    // Removed tCor (time to score coral)
     { code: 'c1a', id: 'coralL1Auto' },
     { code: 'c2a', id: 'coralL2Auto' },
     { code: 'c3a', id: 'coralL3Auto' },
@@ -237,9 +229,9 @@ function getFormDataString() {
     { code: 'dep', id: 'depTele' },
     
     { code: 'ep', id: 'endPosition' },
-    { code: 'def', id: 'defended' },
-    { code: 'trh', id: 'timeRemainingHang' },
-    
+    { code: 'def', id: 'defended' }
+    // Removed 'trh' (time remaining after hang)
+    ,
     { code: 'ofs', id: 'offenseSkill' },
     { code: 'dfs', id: 'defenseSkill' },
     { code: 'yc', id: 'yellowCard' },
@@ -254,15 +246,13 @@ function getFormDataString() {
     if (!el) {
       val = '';
     } else if (fm.id === "startingPosition") {
-      // Convert free selection coordinate (stored as JSON array of "x,y")
-      // into a grid cell number using a default 12x6 resolution based on the image dimensions.
+      // Convert free selection coordinate (JSON array "x,y") into grid cell number (12x6)
       try {
         let coordsArr = JSON.parse(el.value);
         if (coordsArr.length > 0) {
           let parts = coordsArr[0].split(",");
           let x = parseFloat(parts[0]);
           let y = parseFloat(parts[1]);
-          // Use the field image dimensions
           let img = document.querySelector("#fieldMap img");
           let rect = img.getBoundingClientRect();
           let cell = Math.ceil(x / (rect.width / 12)) + ((Math.ceil(y / (rect.height / 6)) - 1) * 12);
@@ -330,10 +320,10 @@ function resetForm() {
 /* ===== Copy Column Names (Short Codes) ===== */
 function copyColumnNames() {
   const columns = [
-    'si','mn','rb','tn','sp','ns','cp',
-    'ma','tCor','c1a','c2a','c3a','c4a','baa','paa','daa','af',
+    'si','mn','mt','rb','tn','sp','ns','cp',
+    'ma','c1a','c2a','c3a','c4a','baa','paa','daa','af',
     'dat','pl','c1t','c2t','c3t','c4t','bat','pat','tf','cf','tfell','toc','dep',
-    'ep','def','trh','ofs','dfs','yc','cs','cm'
+    'ep','def','ofs','dfs','yc','cs','cm'
   ].join(",");
   navigator.clipboard.writeText(columns)
     .then(() => alert('Short-code column names copied!'))
@@ -347,9 +337,9 @@ window.onload = () => {
   getSchedule(EVENT_CODE);
   
   // Timer events
-  document.getElementById('startStopTimerBtn').addEventListener('click', startStopTimer);
-  document.getElementById('lapTimerBtn').addEventListener('click', lapTimer);
-  document.getElementById('resetTimerBtn').addEventListener('click', resetTimer);
+  document.getElementById('startStopTimerBtn') && document.getElementById('startStopTimerBtn').addEventListener('click', startStopTimer);
+  document.getElementById('lapTimerBtn') && document.getElementById('lapTimerBtn').addEventListener('click', lapTimer);
+  document.getElementById('resetTimerBtn') && document.getElementById('resetTimerBtn').addEventListener('click', resetTimer);
   
   // Field map: free selection
   document.getElementById('fieldMap').addEventListener('click', onFieldClick);
