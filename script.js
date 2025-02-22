@@ -6,7 +6,7 @@
    - Free-form interactive field: stores (x,y) coordinates then converts them into a grid cell number (12x6) for output
    - Auto-fills team number based on match number, match type, and robot selection
    - Reset form automatically increments match number
-   - Builds output data as short-code key=value; string (with Coral L4 fields and updated dislodged algae fields)
+   - Builds output data as short-code key=value; string (including Coral L4 fields)
 ------------------------------------------------------ */
 
 /* ===== TBA Interface Functions ===== */
@@ -204,7 +204,7 @@ function getFormDataString() {
     { code: 'cp', id: 'cagePosition' },
     
     { code: 'ma', id: 'movedAuto' },
-    // Removed tCor (time to score coral)
+    // Removed time fields
     { code: 'c1a', id: 'coralL1Auto' },
     { code: 'c2a', id: 'coralL2Auto' },
     { code: 'c3a', id: 'coralL3Auto' },
@@ -226,12 +226,11 @@ function getFormDataString() {
     { code: 'cf', id: 'crossedField' },
     { code: 'tfell', id: 'tippedFell' },
     { code: 'toc', id: 'touchedOpposingCage' },
-    { code: 'dep', id: 'depTele' },
+    // Removed DEP field
     
     { code: 'ep', id: 'endPosition' },
-    { code: 'def', id: 'defended' }
-    // Removed 'trh' (time remaining after hang)
-    ,
+    { code: 'def', id: 'defended' },
+    // Removed trh field
     { code: 'ofs', id: 'offenseSkill' },
     { code: 'dfs', id: 'defenseSkill' },
     { code: 'yc', id: 'yellowCard' },
@@ -246,7 +245,6 @@ function getFormDataString() {
     if (!el) {
       val = '';
     } else if (fm.id === "startingPosition") {
-      // Convert free selection coordinate (JSON array "x,y") into grid cell number (12x6)
       try {
         let coordsArr = JSON.parse(el.value);
         if (coordsArr.length > 0) {
@@ -322,8 +320,8 @@ function copyColumnNames() {
   const columns = [
     'si','mn','mt','rb','tn','sp','ns','cp',
     'ma','c1a','c2a','c3a','c4a','baa','paa','daa','af',
-    'dat','pl','c1t','c2t','c3t','c4t','bat','pat','tf','cf','tfell','toc','dep',
-    'ep','def','ofs','dfs','yc','cs','cm'
+    'dat','pl','c1t','c2t','c3t','c4t','bat','pat','tf','cf','tfell','toc',
+    'ep','def','ofs','dfs','cs','cm'
   ].join(",");
   navigator.clipboard.writeText(columns)
     .then(() => alert('Short-code column names copied!'))
