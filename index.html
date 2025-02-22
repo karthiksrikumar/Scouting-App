@@ -3,9 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Reefscape - FRC Scouting App</title>
-  <!-- Ensure full-width and proper scaling on mobile -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Link to external CSS -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -39,7 +37,7 @@
           <option value="f">Final</option>
         </select>
       </div>
-      <!-- Robot (Dropdown, Mandatory) -->
+      <!-- Robot (Mandatory) -->
       <div class="field">
         <label for="robotNumber">Robot *</label>
         <select id="robotNumber">
@@ -62,7 +60,7 @@
         <label for="noShow">No Show?</label>
         <input type="checkbox" id="noShow" />
       </div>
-      <!-- Cage Position (Dropdown) -->
+      <!-- Cage Position -->
       <div class="field">
         <label for="cagePosition">Cage Position</label>
         <select id="cagePosition">
@@ -78,11 +76,10 @@
           <button type="button" id="flipFieldBtn">Flip</button>
         </div>
         <div class="field-map" id="fieldMap">
-          <!-- Use your field.png image -->
           <img src="field.png" alt="Game Field" />
           <div class="red-dot" id="redDot"></div>
         </div>
-        <!-- This hidden input stores the free-form coordinate as a JSON array -->
+        <!-- This hidden input stores the free-form (x,y) coordinate as a JSON array -->
         <input type="hidden" id="startingPosition" value="" />
       </div>
     </div>
@@ -97,17 +94,7 @@
         <label for="movedAuto">Moved?</label>
         <input type="checkbox" id="movedAuto" />
       </div>
-      <!-- Time to Score Coral (Timer) -->
-      <div class="field timer-field">
-        <label>Time to Score Coral</label>
-        <div class="timer-display" id="timeToScoreCoralDisplay">00:00.0</div>
-        <div class="timer-buttons">
-          <button class="timer-btn" id="startStopTimerBtn">Start</button>
-          <button class="timer-btn" id="lapTimerBtn">Lap</button>
-          <button class="timer-btn" id="resetTimerBtn">Reset</button>
-        </div>
-        <input type="hidden" id="timeToScoreCoral" value="0.00" />
-      </div>
+      <!-- (Time to Score Coral removed) -->
       <!-- Coral L1 Scored -->
       <div class="field counter-field">
         <label>Coral L1 Scored</label>
@@ -162,10 +149,14 @@
           <button class="counter-btn" onclick="increment('processorAlgaeAuto')">+</button>
         </div>
       </div>
-      <!-- Dislodged Algae? -->
-      <div class="field toggle-field">
-        <label for="dislodgedAlgaeAuto">Dislodged Algae?</label>
-        <input type="checkbox" id="dislodgedAlgaeAuto" />
+      <!-- Dislodged Algae (Auto) - Now a counter -->
+      <div class="field counter-field">
+        <label>Dislodged Algae (Auto)</label>
+        <div class="counter-container">
+          <button class="counter-btn" onclick="decrement('dislodgedAlgaeAuto')">–</button>
+          <input type="number" id="dislodgedAlgaeAuto" value="0" />
+          <button class="counter-btn" onclick="increment('dislodgedAlgaeAuto')">+</button>
+        </div>
       </div>
       <!-- Auto Foul -->
       <div class="field counter-field">
@@ -183,10 +174,14 @@
   <div class="column" id="teleopColumn">
     <div class="column-header">TELEOP</div>
     <div class="column-body">
-      <!-- Dislodged Algae? -->
-      <div class="field toggle-field">
-        <label for="dislodgedAlgaeTele">Dislodged Algae?</label>
-        <input type="checkbox" id="dislodgedAlgaeTele" />
+      <!-- Dislodged Algae (Teleop) - Now a counter -->
+      <div class="field counter-field">
+        <label>Dislodged Algae (Teleop)</label>
+        <div class="counter-container">
+          <button class="counter-btn" onclick="decrement('dislodgedAlgaeTele')">–</button>
+          <input type="number" id="dislodgedAlgaeTele" value="0" />
+          <button class="counter-btn" onclick="increment('dislodgedAlgaeTele')">+</button>
+        </div>
       </div>
       <!-- Pickup Location -->
       <div class="field">
@@ -308,11 +303,7 @@
         <label for="defended">Defended?</label>
         <input type="checkbox" id="defended" />
       </div>
-      <!-- Time Remaining After Hang -->
-      <div class="field">
-        <label for="timeRemainingHang">Time Remaining After Hang</label>
-        <textarea id="timeRemainingHang" rows="1" placeholder="e.g. 10s left"></textarea>
-      </div>
+      <!-- (Time Remaining After Hang removed) -->
     </div>
   </div>
 
